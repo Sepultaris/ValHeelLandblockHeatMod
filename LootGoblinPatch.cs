@@ -53,6 +53,7 @@ internal class LootGoblinPatch
             newGoblin.Location = p.Location;
             newGoblin.Location.LandblockId = new LandblockId(newGoblin.Location.GetCell());
             newGoblin.EnterWorld();
+            p.SendMessage("A Loot Drudge has appeared!");
 
             //If the player level is 1500 or greater, spawn the t4 goblin
             if (p.Level > Settings.T4GoblinPLayerLevel)
@@ -63,6 +64,7 @@ internal class LootGoblinPatch
                 newMaxGoblin.Location = p.Location;
                 newMaxGoblin.Location.LandblockId = new LandblockId(newGoblin.Location.GetCell());
                 newMaxGoblin.EnterWorld();
+                p.SendMessage("A Loot Drudge has appeared!");
             }
         }
     }
