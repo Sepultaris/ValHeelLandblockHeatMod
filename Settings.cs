@@ -2,7 +2,7 @@
 {
     public class Settings
     {
-        public double HeatDecayRate { get; set; } = 6.0;
+        public int BaseHeatDecayRate { get; set; } = 6;
         public float LootGoblinChance { get; set; } = 5.0f;
         public int LootGoblin1Wcid { get; set; } = 803562;
         public int LootGoblin2Wcid { get; set; } = 803563;
