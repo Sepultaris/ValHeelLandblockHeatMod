@@ -107,12 +107,14 @@ namespace ValHeelLandblockHeatMod
             var heat = player.CurrentLandblock.CurrentLandblockGroup.Heat;
             var lastHeatDecayTick = player.CurrentLandblock.CurrentLandblockGroup.LastHeatDecayTick;
             var lastHeat = player.CurrentLandblock.CurrentLandblockGroup.LastHeat;
+            var lastHeatTrendTick = player.CurrentLandblock.CurrentLandblockGroup.LastHeatTrendTick;
 
             if (parameters.Length == 0)
             {
                 player.SendMessage($"The current heat is: {heat} Heat is {player.CurrentLandblock.CurrentLandblockGroup.CurrentHeatTrend}");
                 player.SendMessage($"The last heat decay tick was {lastHeatDecayTick}");
                 player.SendMessage($"The last heat was {lastHeat}");
+                player.SendMessage($"The last heat trend tick was {lastHeatTrendTick}");
 
                 return;
             }

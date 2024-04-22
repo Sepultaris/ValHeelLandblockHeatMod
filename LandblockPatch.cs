@@ -20,6 +20,7 @@ internal class LandblockPatch
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(LandblockManager), "TickMultiThreadedWork")]
+
     /// <summary>
     /// This is the post-tick patch for landblocks
     /// </summary>
@@ -44,10 +45,8 @@ internal class LandblockPatch
         if (__instance.LastHeatDecayTick == 0)
             __instance.LastHeatDecayTick = currentUnixTime;
 
-        if (__instance.LastHeatDecayTick + 30 < currentUnixTime)
-            __instance.LastHeat = __instance.Heat;
-
-        TrackHeatTrend(__instance);
+        if (__instance.LastHeatTrendTick == 0)
+            __instance.LastHeatTrendTick = currentUnixTime;
 
         //If the last heat decay tick is more than the heat decay rate, decrement the heat
         if (__instance.LastHeatDecayTick + 7 < currentUnixTime)
@@ -60,7 +59,25 @@ internal class LandblockPatch
 
             //Set the last heat decay tick to the current time
             __instance.LastHeatDecayTick = currentUnixTime;
+
+            if (__instance.Heat > __instance.LastHeat)
+            {
+                __instance.LastHeat = __instance.Heat;
+            }
+
+            //If last heat is greater than heat by 10, decrement last heat.
+            if (__instance.LastHeat > __instance.Heat + 3)
+            {
+                __instance.LastHeat--;
+            }
+
+            if (__instance.Heat == 0)
+                __instance.LastHeat = 0;
+
+            __instance.LastHeatTrendTick = currentUnixTime;
         }
+
+        TrackHeatTrend(__instance);
     }
 
     /// <summary>
@@ -101,13 +118,6 @@ internal class LandblockPatch
         //If the heat is greater than the last heat, set the trend to increasing
         //If the heat is less than the last heat, set the trend to decreasing
         //If the heat is the same as the last heat, set the trend to stable
-
-        var currentUnixTime = Time.GetUnixTime();
-
-        //If the last heat decay tick is more than 5 seconds ago, track the heat trend
-        if (__instance.LastHeatDecayTick == 0)
-            __instance.LastHeatDecayTick = currentUnixTime;
-
         if (__instance.Heat > __instance.LastHeat)
             __instance.CurrentHeatTrend = LandblockGroup.HeatTrend.Increasing;
         else if (__instance.Heat < __instance.LastHeat)
