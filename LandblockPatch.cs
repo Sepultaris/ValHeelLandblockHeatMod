@@ -49,7 +49,7 @@ internal class LandblockPatch
             __instance.LastHeatTrendTick = currentUnixTime;
 
         //If the last heat decay tick is more than the heat decay rate, decrement the heat
-        if (__instance.LastHeatDecayTick + 7 < currentUnixTime)
+        if (__instance.LastHeatDecayTick + __instance.BaseHeatDecayRate < currentUnixTime)
         {
             //If the heat is greater than 0, set lastheat to heat then decrement the heat
             if (__instance.Heat > 0)
@@ -95,15 +95,15 @@ internal class LandblockPatch
             if (playerCount > 1)
             {
                 //Set the heat decay rate to Settings.BaseHeatDecayRate + 0.5 per player
-                Settings.BaseHeatDecayRate = (int)(Settings.BaseHeatDecayRate + (playerCount * 0.5));
+                __instance.BaseHeatDecayRate = 7.0 + (playerCount * 0.5);
 
                 //If the heat decay rate is less than 1, set it to1
-                if (Settings.BaseHeatDecayRate < 1)
-                    Settings.BaseHeatDecayRate = 1;
+                if (__instance.BaseHeatDecayRate < 1)
+                    __instance.BaseHeatDecayRate = 1;
             }
             //If there is only one player in the landblock, set the heat decay rate to 6 else set it to 1
             else if (playerCount == 1)
-                Settings.BaseHeatDecayRate = Settings.BaseHeatDecayRate;
+                __instance.BaseHeatDecayRate = 7.0;
             else
                 Settings.BaseHeatDecayRate = 1;
         }
