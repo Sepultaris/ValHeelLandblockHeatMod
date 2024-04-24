@@ -2,7 +2,6 @@
 {
     public class Settings
     {
-        public double BaseHeatDecayRate { get; set; } = 7.0d;
         public float LootGoblinChance { get; set; } = 5.0f;
         public int LootGoblin1Wcid { get; set; } = 803562;
         public int LootGoblin2Wcid { get; set; } = 803563;
@@ -15,6 +14,8 @@
         public int T4GoblinPLayerLevel { get; set; } = 1500;
         public int GolbinHeatThreshold { get; set; } = 14500;
         public int LandblockHeatCap { get; set; } = 15000;
+        public int HeatInterval { get; set; } = 300;
+        public float XpMultiplier { get; set; } = 3.0f;
     }
 }
 

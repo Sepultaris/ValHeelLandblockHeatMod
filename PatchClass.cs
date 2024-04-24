@@ -1,7 +1,9 @@
 ﻿using ACE.Entity.Enum;
+using ACE.Entity.Enum.Properties;
 using ACE.Server.Command;
 using ACE.Server.Entity;
 using ACE.Server.Network;
+using ACE.Server.WorldObjects;
 
 namespace ValHeelLandblockHeatMod
 {
@@ -108,6 +110,9 @@ namespace ValHeelLandblockHeatMod
             var lastHeatDecayTick = player.CurrentLandblock.CurrentLandblockGroup.LastHeatDecayTick;
             var lastHeat = player.CurrentLandblock.CurrentLandblockGroup.LastHeat;
             var lastHeatTrendTick = player.CurrentLandblock.CurrentLandblockGroup.LastHeatTrendTick;
+            var currentHeatDecayRate = player.CurrentLandblock.CurrentLandblockGroup.BaseHeatDecayRate;
+            var players = player.CurrentLandblock.GetWorldObjectsForPhysicsHandling().OfType<Player>();
+            var playerCount = players.Count();
 
             if (parameters.Length == 0)
             {
@@ -115,6 +120,8 @@ namespace ValHeelLandblockHeatMod
                 player.SendMessage($"The last heat decay tick was {lastHeatDecayTick}");
                 player.SendMessage($"The last heat was {lastHeat}");
                 player.SendMessage($"The last heat trend tick was {lastHeatTrendTick}");
+                player.SendMessage($"The current heat decay rate is {currentHeatDecayRate}");
+                player.SendMessage($"There are {playerCount} in land landblock");
 
                 return;
             }

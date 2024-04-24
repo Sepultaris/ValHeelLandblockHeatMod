@@ -111,6 +111,7 @@
                 Harmony.PatchCategory("CreatureDeathPatch");
                 Harmony.PatchCategory("LandblockPatch");
                 Harmony.PatchCategory("LootGoblinPatch");
+                Harmony.PatchCategory("PlayerXpPatch");
 
                 patch.Start();
             }

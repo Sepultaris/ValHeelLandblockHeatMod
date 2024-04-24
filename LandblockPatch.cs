@@ -89,7 +89,7 @@ internal class LandblockPatch
         foreach (var landblock in __instance)
         {
             //Get all players in the landblock and count them
-            var players = landblock.GetWorldObjectsForPhysicsHandling().OfType<Player>();
+            var players = landblock.GetAllWorldObjectsForDiagnostics().OfType<Player>();
             var playerCount = players.Count();
 
             if (playerCount > 1)
@@ -97,15 +97,13 @@ internal class LandblockPatch
                 //Set the heat decay rate to Settings.BaseHeatDecayRate + 0.5 per player
                 __instance.BaseHeatDecayRate = 7.0 + (playerCount * 0.5);
 
-                //If the heat decay rate is less than 1, set it to1
+                //If the heat decay rate is less than 1, set it to 1
                 if (__instance.BaseHeatDecayRate < 1)
                     __instance.BaseHeatDecayRate = 1;
             }
-            //If there is only one player in the landblock, set the heat decay rate to 6 else set it to 1
-            else if (playerCount == 1)
+            //If there is only one player in the landblock, set the heat decay rate to 7 else set it to 1
+            if (playerCount == 1)
                 __instance.BaseHeatDecayRate = 7.0;
-            else
-                Settings.BaseHeatDecayRate = 1;
         }
     }
 
