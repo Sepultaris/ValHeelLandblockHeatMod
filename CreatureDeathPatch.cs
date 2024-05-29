@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
 using ACE.Server.Entity;
 using ACE.Server.WorldObjects;
 
@@ -31,7 +31,7 @@ internal class CreatureDeathPatch
         var landblockGroup = __instance.CurrentLandblock.CurrentLandblockGroup;
 
         if (!__instance.IsCombatPet && landblockGroup.Heat < Settings.LandblockHeatCap)
-        landblockGroup.Heat++;
+            landblockGroup.Heat++;
         
         var killer = lastDamager.TryGetAttacker();
 

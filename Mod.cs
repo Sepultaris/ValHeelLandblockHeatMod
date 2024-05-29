@@ -112,6 +112,7 @@
                 Harmony.PatchCategory("LandblockPatch");
                 Harmony.PatchCategory("LootGoblinPatch");
                 Harmony.PatchCategory("PlayerXpPatch");
+                Harmony.PatchCategory("PlayerLuminancePatch");
 
                 patch.Start();
             }

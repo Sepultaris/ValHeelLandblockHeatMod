@@ -1,7 +1,6 @@
 ﻿using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
 using ACE.Server.Command;
-using ACE.Server.Entity;
 using ACE.Server.Network;
 using ACE.Server.WorldObjects;
 
@@ -96,6 +95,8 @@ namespace ValHeelLandblockHeatMod
 
         #region Patches
 
+        PropertyFloat lootGoblinTimestamp = (PropertyFloat)61000;
+
         /// <summary>
         /// This command will display the current heat of the landblock and the last heat decay tick.
         /// </summary>
@@ -113,50 +114,28 @@ namespace ValHeelLandblockHeatMod
             var currentHeatDecayRate = player.CurrentLandblock.CurrentLandblockGroup.BaseHeatDecayRate;
             var players = player.CurrentLandblock.GetWorldObjectsForPhysicsHandling().OfType<Player>();
             var playerCount = players.Count();
+            var drudgeHeatLevel = Settings.GolbinHeatThreshold;
 
             if (parameters.Length == 0)
             {
-                player.SendMessage($"The current heat is: {heat} Heat is {player.CurrentLandblock.CurrentLandblockGroup.CurrentHeatTrend}");
-                player.SendMessage($"The last heat decay tick was {lastHeatDecayTick}");
-                player.SendMessage($"The last heat was {lastHeat}");
-                player.SendMessage($"The last heat trend tick was {lastHeatTrendTick}");
-                player.SendMessage($"The current heat decay rate is {currentHeatDecayRate}");
-                player.SendMessage($"There are {playerCount} in land landblock");
+                player.SendMessage($"The Battle Heat in this area is {heat}. Heat is {player.CurrentLandblock.CurrentLandblockGroup.CurrentHeatTrend}");
 
                 return;
             }
-        }
-
-        /// <summary>
-        /// This command will set the heat of the landblock.
-        /// </summary>
-        /// <param name="session"></param>
-        /// <param name="parameters"></param>
-        [CommandHandler("setheat", AccessLevel.Admin, CommandHandlerFlag.RequiresWorld)]
-
-        public static void SetHeatHandler(Session session, string[] parameters)
-        {
-            var player = session.Player;
-
-            if (parameters.Length == 0)
+            if (parameters[0] == "help")
             {
-                player.SendMessage("Usage: /setheat <value>");
-                return;
+                player.SendMessage("Usage:/heat Displays the current Battle Heat and trend.");
+                player.SendMessage("Battle Heat increases with the number of monsters killed in an area.");
+                player.SendMessage("If Battle Heat is high enough, any players in the area will gain an xp bonus when they kill monsters.");
+                player.SendMessage("The xp bonuses are devided into tiers.");
+                player.SendMessage("<Tier> <kills> <bonus>");
+                player.SendMessage("   1    1000     3%   ");
+                player.SendMessage("   2    3000     6%   ");
+                player.SendMessage("   3    6000     9%   ");
+                player.SendMessage("   4    9000    12%   ");
+                player.SendMessage("   5   12000    15%   ");
+                player.SendMessage($"When Battle Heat is above {drudgeHeatLevel} every kill has a chance to spawn a Loot Drudge next to the player.");
             }
-
-            if (int.TryParse(parameters[0], out int heat))
-            {
-                if (heat < 0 || heat > 15000)
-                {
-                      player.SendMessage("Invalid value");
-                    return;
-                }
-
-                player.CurrentLandblock.CurrentLandblockGroup.Heat = heat;
-                player.SendMessage($"Heat set to {heat}");
-            }
-            else
-                player.SendMessage("Invalid value");
         }
         #endregion
     }

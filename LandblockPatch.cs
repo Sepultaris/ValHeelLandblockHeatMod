@@ -2,8 +2,6 @@
 using ACE.Server.Entity;
 using ACE.Server.Managers;
 using ACE.Server.WorldObjects;
-using log4net;
-using log4net.Appender;
 
 namespace ValHeelLandblockHeatMod;
 
@@ -41,23 +39,19 @@ internal class LandblockPatch
     {
         var currentUnixTime = Time.GetUnixTime();
 
-        //If the last heat decay tick is 0, set it to the current time
         if (__instance.LastHeatDecayTick == 0)
             __instance.LastHeatDecayTick = currentUnixTime;
 
         if (__instance.LastHeatTrendTick == 0)
             __instance.LastHeatTrendTick = currentUnixTime;
 
-        //If the last heat decay tick is more than the heat decay rate, decrement the heat
         if (__instance.LastHeatDecayTick + __instance.BaseHeatDecayRate < currentUnixTime)
         {
-            //If the heat is greater than 0, set lastheat to heat then decrement the heat
             if (__instance.Heat > 0)
             {
                 __instance.Heat--;
             }
 
-            //Set the last heat decay tick to the current time
             __instance.LastHeatDecayTick = currentUnixTime;
 
             if (__instance.Heat > __instance.LastHeat)
@@ -65,7 +59,6 @@ internal class LandblockPatch
                 __instance.LastHeat = __instance.Heat;
             }
 
-            //If last heat is greater than heat by 10, decrement last heat.
             if (__instance.LastHeat > __instance.Heat + 3)
             {
                 __instance.LastHeat--;
